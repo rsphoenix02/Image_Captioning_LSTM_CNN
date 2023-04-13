@@ -3,7 +3,7 @@ import caption_generator
 import numpy as np
 from keras.preprocessing import sequence
 import nltk
-
+import os
 
 cg = caption_generator.CaptionGenerator()
 
@@ -85,7 +85,7 @@ def test_model_on_images(weight, img_dir, beam_size = 3):
 		f_pred_caption.flush()
 	f_pred_caption.close()
 
-	f_captions = open('Flickr8k_text/Flickr8k.token.txt', 'rb')
+	f_captions = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "Flickr8k.token.txt", 'rb'))
 	captions_text = f_captions.read().strip().split('\n')
 	image_captions_pair = {}
 	for row in captions_text:
@@ -110,6 +110,6 @@ def test_model_on_images(weight, img_dir, beam_size = 3):
 if __name__ == '__main__':
 	weight = 'weights-improvement-48.hdf5'
 	test_image = '3155451946_c0862c70cb.jpg'
-	test_img_dir = 'G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\Flickr_8k.testImages.txt'
+	test_img_dir = os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "Flickr_8k.testImages.txt")
 	#print test_model(weight, test_image)
 	print(test_model_on_images(weight, test_img_dir, beam_size=3))

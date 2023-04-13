@@ -8,8 +8,9 @@ from keras.utils import pad_sequences
 from keras.utils import load_img, img_to_array
 from keras.callbacks import ModelCheckpoint
 import pickle as pickle
+import os
 
-#new
+
 
 EMBEDDING_DIM = 128
 
@@ -22,11 +23,11 @@ class CaptionGenerator():
         self.index_word = None
         self.word_index = None
         self.total_samples = None
-        self.encoded_images = pickle.load( open( "G:\\rsphoenix02\\caption_generator\\encoded_images.p", "rb" ) )
+        self.encoded_images = pickle.load(open(os.path.join(os.path.split(os.path.dirname(__file__))[0], "encoded_images.p"), 'rb'))
         self.variable_initializer()
 
     def variable_initializer(self):
-        df = pd.read_csv("G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\flickr_8k_train_dataset", delimiter='\t')
+        df = pd.read_csv(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "flickr_8k_train_dataset"), delimiter='\t')
         nb_samples = df.shape[0]
         iter = df.iterrows()
         # for i in iter:
@@ -71,7 +72,7 @@ class CaptionGenerator():
         images = []
         print("Generating data...")
         gen_count = 0
-        df = pd.read_csv("G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\flickr_8k_train_dataset", delimiter='\t')
+        df = pd.read_csv(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "flickr_8k_train_dataset"), delimiter='\t')
         nb_samples = df.shape[0]
         iter = df.iterrows()
         caps = []

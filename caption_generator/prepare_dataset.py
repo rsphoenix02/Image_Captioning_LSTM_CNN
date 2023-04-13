@@ -3,6 +3,7 @@ from keras.utils import load_img, img_to_array
 from vgg16 import VGG16
 import numpy as np 
 from keras.applications.imagenet_utils import preprocess_input	
+import os
 
 counter = 0
 
@@ -20,7 +21,7 @@ def load_encoding_model():
 def get_encoding(model, img):
 	global counter
 	counter += 1
-	p = "G:\\rsphoenix02\\caption_generator\\Flicker8k_Dataset\\"+str(img)
+	p = os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flicker8k_Dataset", str(img))
 	image = load_image(p)
 	pred = model.predict(image)
 	pred = np.reshape(pred, pred.shape[1])
@@ -29,7 +30,8 @@ def get_encoding(model, img):
 	return pred
 
 def prepare_dataset(no_imgs = -1):
-	f_train_images = open("G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\Flickr_8k.trainImages.txt",'r')
+	
+	f_train_images = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "Flickr_8k.trainImages.txt"), 'r')
 	
 	# train_imgs = []
 
@@ -42,18 +44,18 @@ def prepare_dataset(no_imgs = -1):
 	train_imgs = f_train_images.read().split('\n') if no_imgs == -1 else f_train_images.read().strip().split('\n')[:no_imgs]
 	# print(train_imgs)
 	f_train_images.close()
-
-	f_test_images = open("G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\Flickr_8k.testImages.txt",'r')
+	
+	f_test_images = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "Flickr_8k.testImages.txt"), 'r')
 	test_imgs = f_test_images.read().split('\n') if no_imgs == -1 else f_test_images.read().strip().split('\n')[:no_imgs]
 	f_test_images.close()
-
-	f_train_dataset = open('G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\flickr_8k_train_dataset','w')
+	
+	f_train_dataset = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "flickr_8k_train_dataset"), 'w')
 	f_train_dataset.write("image_id\tcaptions\n")
-
-	f_test_dataset = open('G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\flickr_8k_test_dataset','w')
+	
+	f_test_dataset = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", "flickr_8k_test_dataset"), 'w')
 	f_test_dataset.write("image_id\tcaptions\n")
-
-	f_captions = open("G:\\rsphoenix02\\caption_generator\\Flickr8k_text\\Flickr8k.token.txt", 'r')
+	
+	f_captions = open(os.path.join(os.path.split(os.path.dirname(__file__))[0], "Flickr8k_text", 'Flickr8k.token.txt'), 'r')
 	captions = f_captions.read().split('\n')
 	# print(captions)
 
